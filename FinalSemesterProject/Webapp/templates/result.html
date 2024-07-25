@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Prediction Result</title>
+</head>
+<body>
+    <h1>Your BMI is {{ bmi }}</h1>
+    <p>Category: {{ category }}</p>
+    
+    <h2>Diet Recommendations</h2>
+    <ul>
+        {% for item in diet_recommendations %}
+            <li>{{ item }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Exercise Recommendations</h2>
+    <ul>
+        {% for item in exercise_recommendations %}
+            <li>{{ item }}</li>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'predict_bmi' %}">Predict Again</a>
+</body>
+</html>
