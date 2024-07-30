@@ -1,27 +1,21 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from django.shortcuts import render
 from .forms import BMIForm, BMIPredictionForm
 import joblib
 import pandas as pd
 
 
-# def home(request):
-#     return render(request, 'index.html')
-
-
-
 # Load the trained model (assume you have saved it as 'random_forest_model.pkl')
-#model = joblib.load('path/to/your/random_forest_model.pkl')
+# model = joblib.load('path/to/your/random_forest_model.pkl')
 
 def calculate_bmi(erbmi, height, weight):
     # Prepare the input data
     input_data = pd.DataFrame({'erbmi': [erbmi], 'euhgt': [height], 'euwgt': [weight]})
     
     # Predict BMI
-    #predicted_bmi = model.predict(input_data[['erbmi', 'euhgt', 'euwgt']])
+    # predicted_bmi = model.predict(input_data[['erbmi', 'euhgt', 'euwgt']])
     
-    return input_data[0]
+    return erbmi  # Assuming you want to return the erbmi directly for now
 
 def home(request):
     if request.method == 'POST':
@@ -29,20 +23,12 @@ def home(request):
         if form.is_valid():
             height = form.cleaned_data['height']
             weight = form.cleaned_data['weight']
-            erbmi = weight / (height / 100) ** 2
+            erbmi = weight / (height * height)
             predicted_bmi = calculate_bmi(erbmi, height, weight)
-            return render(request, 'result.html', {'predicted_bmi': predicted_bmi})
+            return render(request, 'result.html', {'predicted_bmi': round(predicted_bmi, 2)})
     else:
         form = BMIForm()
     return render(request, 'index.html', {'form': form})
-
-
-
-
-from django.shortcuts import render
-from .forms import BMIPredictionForm
-import joblib
-from .recommendations import recommendations
 
 def categorize_bmi(bmi):
     if bmi < 18.5:
@@ -62,6 +48,8 @@ def predict_bmi(request):
         if form.is_valid():
             height = form.cleaned_data['height']
             weight = form.cleaned_data['weight']
+            print(type(height))
+            print(type(weight))
             
             # Load the model
             model = joblib.load('myapp/bmi_model.pkl')
@@ -69,15 +57,8 @@ def predict_bmi(request):
             # Predict BMI
             bmi = model.predict([[height, weight]])[0]
             category = categorize_bmi(bmi)
-            diet_recommendations = recommendations[category]['diet']
-            exercise_recommendations = recommendations[category]['exercise']
             
-            return render(request, 'result.html', {
-                'bmi': bmi,
-                'category': category,
-                'diet_recommendations': diet_recommendations,
-                'exercise_recommendations': exercise_recommendations
-            })
+            return render(request, 'result.html', {'bmi': bmi, 'category': category})
     else:
         form = BMIPredictionForm()
     
