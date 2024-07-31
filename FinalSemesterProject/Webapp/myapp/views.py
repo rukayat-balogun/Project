@@ -1,34 +1,14 @@
+# views.py
+
+import pickle
+import numpy as np
 from django.shortcuts import render
-from django.http import HttpResponse
-from .forms import BMIForm, BMIPredictionForm
-import joblib
-import pandas as pd
+from .forms import BMIPredictionForm
+from .recommendations import recommendations
 
-
-# Load the trained model (assume you have saved it as 'random_forest_model.pkl')
-# model = joblib.load('path/to/your/random_forest_model.pkl')
-
-def calculate_bmi(erbmi, height, weight):
-    # Prepare the input data
-    input_data = pd.DataFrame({'erbmi': [erbmi], 'euhgt': [height], 'euwgt': [weight]})
-    
-    # Predict BMI
-    # predicted_bmi = model.predict(input_data[['erbmi', 'euhgt', 'euwgt']])
-    
-    return erbmi  # Assuming you want to return the erbmi directly for now
-
-def home(request):
-    if request.method == 'POST':
-        form = BMIForm(request.POST)
-        if form.is_valid():
-            height = form.cleaned_data['height']
-            weight = form.cleaned_data['weight']
-            erbmi = weight / (height * height)
-            predicted_bmi = calculate_bmi(erbmi, height, weight)
-            return render(request, 'result.html', {'predicted_bmi': round(predicted_bmi, 2)})
-    else:
-        form = BMIForm()
-    return render(request, 'index.html', {'form': form})
+# Load the model
+with open('myapp/bmi_model.pkl', 'rb') as file:
+    model = pickle.load(file)
 
 def categorize_bmi(bmi):
     if bmi < 18.5:
@@ -41,25 +21,50 @@ def categorize_bmi(bmi):
         return 'Obese'
     else:
         return 'Morbid Obesity'
-
-def predict_bmi(request):
+    
+def calculate_bmi(request):
     if request.method == 'POST':
         form = BMIPredictionForm(request.POST)
         if form.is_valid():
-            height = form.cleaned_data['height']
-            weight = form.cleaned_data['weight']
-            print(type(height))
-            print(type(weight))
+            height_feet = form.cleaned_data['height']
+            weight_kg = form.cleaned_data['weight']
             
-            # Load the model
-            model = joblib.load('myapp/bmi_model.pkl')
+            # Convert height to inches and weight to pounds
+            height_inches = height_feet * 12
+            weight_pounds = weight_kg * 2.20462
+            
+            # Prepare the input for prediction
+            X = np.array([[height_inches, weight_pounds]])
             
             # Predict BMI
-            bmi = model.predict([[height, weight]])[0]
-            category = categorize_bmi(bmi)
+            bmi = model.predict(X)
             
-            return render(request, 'result.html', {'bmi': bmi, 'category': category})
+            # Determine category based on BMI
+            if bmi < 18.5:
+                category = "Underweight"
+            elif 18.5 <= bmi < 25:
+                category = "Normal weight"
+            elif 25 <= bmi < 30:
+                category = "Overweight"
+            elif 30 <= bmi < 40:
+                category = "Obese"
+            else:
+                category = "Morbid Obesity"
+            
+            diet_recommendations = recommendations[category]['diet']
+            fitness_recommendations = recommendations[category]['exercise']
+            
+            return render(request, 'bmi_result.html', {
+                'bmi': bmi[0], 
+                'category': category,
+                'diet_recommendations': diet_recommendations,
+                'fitness_recommendations': fitness_recommendations
+            })
+           
     else:
         form = BMIPredictionForm()
-    
-    return render(request, 'predict_bmi.html', {'form': form})
+    return render(request, 'calculate_bmi.html', {'form': form})
+
+
+
+

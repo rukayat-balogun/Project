@@ -1,7 +1,10 @@
+<!-- predict_bmi.html -->
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Predict BMI</title>
+    <meta charset="UTF-8">
+    <title>BMI Prediction</title>
 </head>
 <body>
     <h1>Predict Your BMI</h1>
@@ -10,5 +13,10 @@
         {{ form.as_p }}
         <button type="submit">Predict</button>
     </form>
+    
+    {% if predicted_bmi %}
+        <h2>Predicted BMI: {{ predicted_bmi }}</h2>
+        <h3>Category: {{ category }}</h3>
+    {% endif %}
 </body>
 </html>
