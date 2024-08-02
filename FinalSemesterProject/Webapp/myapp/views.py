@@ -1,10 +1,10 @@
-# views.py
-
+import os
+import random
 import pickle
 import numpy as np
+from django.conf import settings
 from django.shortcuts import render
 from .forms import BMIPredictionForm
-from .recommendations import recommendations
 
 # Load the model
 with open('myapp/bmi_model.pkl', 'rb') as file:
@@ -14,14 +14,22 @@ def categorize_bmi(bmi):
     if bmi < 18.5:
         return 'Underweight'
     elif 18.5 <= bmi < 25:
-        return 'Normal weight'
+        return 'Normal_weight'
     elif 25 <= bmi < 30:
         return 'Overweight'
     elif 30 <= bmi < 40:
         return 'Obese'
     else:
-        return 'Morbid Obesity'
-    
+        return 'Morbid_Obesity'
+
+def get_random_images(category, num_images=5):
+    """Get random images from the specified category folder."""
+    image_folder = os.path.join(settings.STATIC_ROOT, 'recommendations', category)
+    images = os.listdir(image_folder)
+    selected_images = random.sample(images, min(num_images, len(images)))
+    # Construct URLs for static files
+    return [os.path.join('recommendations', category, image) for image in selected_images]
+
 def calculate_bmi(request):
     if request.method == 'POST':
         form = BMIPredictionForm(request.POST)
@@ -37,34 +45,19 @@ def calculate_bmi(request):
             X = np.array([[height_inches, weight_pounds]])
             
             # Predict BMI
-            bmi = model.predict(X)
+            bmi = model.predict(X)[0]
             
             # Determine category based on BMI
-            if bmi < 18.5:
-                category = "Underweight"
-            elif 18.5 <= bmi < 25:
-                category = "Normal weight"
-            elif 25 <= bmi < 30:
-                category = "Overweight"
-            elif 30 <= bmi < 40:
-                category = "Obese"
-            else:
-                category = "Morbid Obesity"
+            category = categorize_bmi(bmi)
             
-            diet_recommendations = recommendations[category]['diet']
-            fitness_recommendations = recommendations[category]['exercise']
+            # Get random image recommendations
+            diet_images = get_random_images(category, num_images=5)
             
             return render(request, 'bmi_result.html', {
-                'bmi': bmi[0], 
+                'bmi': bmi,
                 'category': category,
-                'diet_recommendations': diet_recommendations,
-                'fitness_recommendations': fitness_recommendations
+                'diet_images': diet_images,
             })
-           
     else:
         form = BMIPredictionForm()
     return render(request, 'calculate_bmi.html', {'form': form})
-
-
-
-
