@@ -7,6 +7,13 @@ from django.shortcuts import render
 from .forms import BMIPredictionForm
 
 # Load the model
+
+def home(request):
+
+    return render(request, 'index.html')
+
+
+
 with open('myapp/bmi_model.pkl', 'rb') as file:
     model = pickle.load(file)
 
