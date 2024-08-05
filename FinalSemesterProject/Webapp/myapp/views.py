@@ -12,8 +12,7 @@ def home(request):
 
     return render(request, 'index.html')
 
-
-
+# Load the model
 with open('myapp/bmi_model.pkl', 'rb') as file:
     model = pickle.load(file)
 
@@ -31,11 +30,17 @@ def categorize_bmi(bmi):
 
 def get_random_images(category, num_images=5):
     """Get random images from the specified category folder."""
-    image_folder = os.path.join(settings.STATIC_ROOT, 'recommendations', category)
+    image_folder = os.path.join(settings.STATICFILES_DIRS[0], 'recommendations', category)
     images = os.listdir(image_folder)
+    
+    # Ensure there are images in the directory
+    if not images:
+        return []
+    
     selected_images = random.sample(images, min(num_images, len(images)))
+    
     # Construct URLs for static files
-    return [os.path.join('recommendations', category, image) for image in selected_images]
+    return [os.path.join(settings.STATIC_URL, 'recommendations', category, image) for image in selected_images]
 
 def calculate_bmi(request):
     if request.method == 'POST':
