@@ -1,12 +1,29 @@
-<html>
-  <head>
-    <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
-    <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
-  </head>
-  <body>
+<!-- index.html -->
+{% extends 'base.html' %}
 
-    <body>
-        <h1>Welcome</h1>
-        
-  </body>
-</html>
+{% block title %}Home - Personalized Fitness for Obesity{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <div class="hero-content">
+        <h1>Welcome to Your Personalized Fitness Journey</h1>
+        <p>Our mission is to empower obese and sedentary individuals with data-driven personalized fitness plans that cater to your unique needs.</p>
+        <a href="{% url 'calculate_bmi' %}" class="cta-button">Get Started with BMI Calculation</a>
+    </div>
+</div>
+
+<section class="features-section">
+    <div class="feature">
+        <h2>Personalized Workouts</h2>
+        <p>Tailored workout plans to match your fitness level and goals, helping you transition to a healthier lifestyle.</p>
+    </div>
+    <div class="feature">
+        <h2>Nutrition Guidance</h2>
+        <p>Custom meal plans and dietary recommendations that align with your personal health data.</p>
+    </div>
+    <div class="feature">
+        <h2>Progress Tracking</h2>
+        <p>Monitor your progress with our comprehensive tracking system, ensuring you're on the right path.</p>
+    </div>
+</section>
+{% endblock %}

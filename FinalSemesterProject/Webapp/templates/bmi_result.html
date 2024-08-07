@@ -1,23 +1,44 @@
-{% load static %}
-<!DOCTYPE html>
-<html>
-<head>
-    <title>BMI Result</title>
-</head>
-<body>
-    <h1>BMI Result</h1>
-    <p>Your BMI is: {{ bmi }}</p>
-    <p>Category: {{ category }}</p>
+<!-- bmi_result.html -->
+{% extends 'base.html' %}
 
-    <h2>Dietary Recommendations</h2>
-    <div>
-        {% for image_url in diet_images %}
-            <img src="{{ image_url }}" alt="Diet Image" style="max-width: 200px; height: auto;">
-        {% empty %}
-            <p>No images available for this category.</p>
-        {% endfor %}
-    </div>
+{% block title %}BMI Result{% endblock %}
 
-    <a href="{% url 'calculate_bmi' %}">Calculate Again</a>
-</body>
-</html>
+{% block content %}
+    <header class="header">
+        <h1>BMI Result</h1>
+        <p>Your BMI is: <strong>{{ bmi }}</strong></p>
+        <p>Category: <span class="category">{{ category }}</span></p>
+    </header>
+
+    <section class="recommendations">
+        <div class="recommendation-section">
+            <h2>Dietary Recommendations</h2>
+            <div class="cards">
+                {% for image_url in diet_images %}
+                    <div class="card">
+                        <img src="{{ image_url }}" alt="Diet Image">
+                        <p>Description for the diet image.</p>
+                    </div>
+                {% empty %}
+                    <p>No diet images available for this category.</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="recommendation-section">
+            <h2>Fitness Recommendations</h2>
+            <div class="cards">
+                {% for image_url in fitness_images %}
+                    <div class="card">
+                        <img src="{{ image_url }}" alt="Fitness Image">
+                        <p>Description for the fitness image.</p>
+                    </div>
+                {% empty %}
+                    <p>No fitness images available for this category.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <a class="button calculate-again" href="{% url 'calculate_bmi' %}">Calculate Again</a>
+{% endblock %}

@@ -1,0 +1,60 @@
+/* styles.css */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: rgba(128, 0, 128, 0.5);  /* Transparent purple background */
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2 {
+    color: #333;
+}
+
+.images {
+    display: flex;  /* Use flexbox for horizontal alignment */
+    flex-wrap: nowrap;  /* Prevent wrapping to a new line */
+    overflow-x: auto;  /* Allow horizontal scrolling if necessary */
+    gap: 10px;  /* Space between images */
+    padding: 10px 0;  /* Padding for top and bottom */
+}
+
+.image-container {
+    flex: 0 0 auto;  /* Prevent image from growing or shrinking */
+    max-width: 100px;  /* Limit image width */
+}
+
+.image-container img {
+    max-width: 100%;  /* Ensure image scales within container */
+    height: auto;  /* Maintain aspect ratio */
+}
+
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    color: #fff;
+    background-color: #007BFF;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+}
+
+.button:hover {
+    background-color: #0056b3;
+}
+
+footer {
+    margin-top: 40px;
+    text-align: center;
+    font-size: 0.9em;
+    color: #666;
+}

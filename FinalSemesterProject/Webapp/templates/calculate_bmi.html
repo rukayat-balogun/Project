@@ -1,14 +1,22 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>BMI Calculator</title>
-</head>
-<body>
-    <h1>BMI Calculator</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Calculate BMI</button>
-    </form>
-</body>
-</html>
+<!-- calculate_bmi.html -->
+{% extends 'base.html' %}
+
+{% block title %}BMI Calculator{% endblock %}
+
+{% block content %}
+    <div class="calculator-container">
+        <h1>BMI Calculator</h1>
+        <form method="post" id="bmiForm">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="height">Height (in feet):</label>
+                {{ form.height }}
+            </div>
+            <div class="form-group">
+                <label for="weight">Weight (in Kg):</label>
+                {{ form.weight }}
+            </div>
+            <button type="submit" class="calculate-btn">Calculate BMI</button>
+        </form>
+    </div>
+{% endblock %}

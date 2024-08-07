@@ -1,26 +1,32 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Prediction Result</title>
+    <title>BMI Result</title>
 </head>
 <body>
-    <h1>Your BMI is {{ predicted_bmi }}</h1>
+    <h1>BMI Result</h1>
+    <p>Your BMI is: {{ bmi }}</p>
     <p>Category: {{ category }}</p>
-    
-    <h2>Diet Recommendations</h2>
-    <ul>
-        {% for item in diet_recommendations %}
-            <li>{{ item }}</li>
-        {% endfor %}
-    </ul>
 
-    <h2>Exercise Recommendations</h2>
-    <ul>
-        {% for item in exercise_recommendations %}
-            <li>{{ item }}</li>
+    <h2>Dietary Recommendations</h2>
+    <div>
+        {% for image_url in diet_images %}
+            <img src="{{ image_url }}" alt="Diet Image" style="max-width: 200px; height: auto;">
+        {% empty %}
+            <p>No diet images available for this category.</p>
         {% endfor %}
-    </ul>
+    </div>
 
-    <a href="{% url 'calculate_bmi' %}">Predict Again</a>
+    <h2>Fitness Recommendations</h2>
+    <div>
+        {% for image_url in fitness_images %}
+            <img src="{{ image_url }}" alt="Fitness Image" style="max-width: 200px; height: auto;">
+        {% empty %}
+            <p>No fitness images available for this category.</p>
+        {% endfor %}
+    </div>
+
+    <a href="{% url 'calculate_bmi' %}">Calculate Again</a>
 </body>
 </html>
