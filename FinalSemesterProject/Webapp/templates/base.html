@@ -14,13 +14,16 @@
 <body>
     <div class="background">
         <div class="container">
+            <nav>
+                <a href="{% url 'home' %}" class="home-link">Home</a>
+            </nav>
             {% block content %}
             <!-- Default content goes here, if any -->
             {% endblock %}
         </div>
         <footer>
             {% block footer %}
-            <p>My Website Footer</p>
+            <p>Rukayat Balogun</p>
             {% endblock %}
         </footer>
     </div>
