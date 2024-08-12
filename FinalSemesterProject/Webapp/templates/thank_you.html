@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %}Thank You{% endblock %}
+
+{% block content %}
+    <div class="thank-you">
+        <h1>Thank You for Your Feedback!</h1>
+        <p>We appreciate your input and will use it to improve our services.</p>
+        <a href="{% url 'home' %}" class="button">Return to Home</a>
+    </div>
+{% endblock %}
