@@ -1,6 +1,7 @@
 
 
 from django import forms
+from .models import Feedback
 
 class BMIPredictionForm(forms.Form):
     height = forms.FloatField(label='Height (in feet)')
@@ -9,7 +10,10 @@ class BMIPredictionForm(forms.Form):
 
 
 
-class FeedbackForm(forms.Form):
-    name = forms.CharField(max_length=100, required=False, label="Your Name")
-    email = forms.EmailField(required=False, label="Your Email")
-    comments = forms.CharField(widget=forms.Textarea, label="Your Feedback")
+
+
+
+class FeedbackForm(forms.ModelForm):
+    class Meta:
+        model = Feedback
+        fields = ['name', 'email', 'comments']

@@ -83,3 +83,14 @@ def calculate_bmi(request):
 
 def thank_you(request):
     return render(request, 'thank_you.html')
+
+def feedback_view(request):
+    if request.method == 'POST':
+        feedback_form = FeedbackForm(request.POST)
+        if feedback_form.is_valid():
+            feedback_form.save()
+            return redirect('thank_you')  # Redirect to thank you page after submitting feedback
+    else:
+        feedback_form = FeedbackForm()
+
+    return render(request, 'feedback.html', {'feedback_form': feedback_form})

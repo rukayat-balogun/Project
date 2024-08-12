@@ -38,15 +38,8 @@
         </div>
     </section>
 
-    <a class="button calculate-again" href="{% url 'calculate_bmi' %}">Calculate Again</a>
-
-    <section class="feedback">
-        <h2>We'd Love Your Feedback</h2>
-        <form method="post">
-            {% csrf_token %}
-            {{ feedback_form.as_p }}
-            <button type="submit" class="button">Submit Feedback</button>
-        </form>
-    </section>
-    
+    <div class="button-group">
+        <a class="button calculate-again" href="{% url 'calculate_bmi' %}">Calculate Again</a>
+        <a class="button feedback-button" href="{% url 'feedback' %}">Give Feedback</a>
+    </div>
 {% endblock %}
