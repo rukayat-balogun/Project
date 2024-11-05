@@ -1,0 +1,39 @@
+# Byte-compiled files
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environment directories
+venv/
+.env/
+
+# Environment variable files
+.env
+.env.*
+
+# Docker-related files
+docker-compose.override.yml
+*.log
+*.pid
+
+# Python cache and build directories
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# VS Code and other editor settings
+.vscode/
+.idea/
+
+# Ignore the database files
+*.sqlite3
+*.db
+
+# Ignore compiled or binary files
+*.so
+*.out
+
+# OS-specific files
+.DS_Store
+Thumbs.db
