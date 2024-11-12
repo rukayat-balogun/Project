@@ -1,0 +1,232 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Urpaeministry | Home{% endblock %}
+{% block description %}Home page description{% endblock %}
+
+{% block content %}
+<div class="banner">
+    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+        <!-- Carousel indicators and images -->
+        <ol class="carousel-indicators">
+            <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+            <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+            <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner">
+            <div class="item active">
+                <img src="{% static 'images/bnr-4.jpg' %}" alt="Charity banner template">
+            </div>
+            <div class="item">
+                <img src="{% static 'images/bnr.jpg' %}" alt="Charity">
+            </div>
+            <div class="item">
+                <img src="{% static 'images/bnr-2.jpg' %}" alt="Charity template">
+            </div>
+        </div>
+        <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+        </a>
+        <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right"></span>
+        </a>
+    </div>
+</div>
+
+<!-- About Start -->
+<div class="about">
+    <div class="container">
+        <div class="donate-info">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="donate-box">
+                        <h2>REACHED OVER</h2>
+                        <strong>100</strong>
+                        <h2>HOUSEHOLDS</h2>
+                        <a href="{% url 'events' %}" class="btn btn-default btn-donate">View Our Programs</a>
+                    </div>
+                </div>
+                <div class="col-md-offset-1 col-md-7">
+                    <h1>Who we are?<br> Our Stand</h1>
+                    <p class="lead-font">
+                        We believe in God the Father, God the Son, and God the Holy Spirit. We stand in the inseparable unity
+                        of the Trinity and the supremacy of the power therein over all creations. That thereafter, we shall
+                        return unto God to give stewardship of our existence and be rewarded accordingly.
+                    </p>
+                    <p>Matt. 3:16-17, II Cor. 5:10</p>
+                    <a href="{% url 'who_we_are' %}" class="btn btn-default btn-yellow">Learn more</a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="blk">
+                    <i class="fa fa-bullseye icon-size"></i>
+                    <h2 class="item-title">Our Mission</h2>
+                    <p>To follow and fulfil the directive of our Lord Jesus Christ, to preach the gospel to all nations.</p>
+                    <p>Matt. 28:19-20</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="blk">
+                    <i class="fa fa-file-text icon-size"></i>
+                    <h2 class="item-title">Our Vision</h2>
+                    <p>
+                        To ensure that everyone we meet through the gospel is a safe soul and a candidate of heaven. Such a soul
+                        should also experience a fulfilled life on earth and become a source of blessing to others.
+                    </p>
+                    <p>Matt. 25:31-46</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="blk">
+                    <i class="fa fa-clock-o icon-size"></i>
+                    <h2 class="item-title">Prayer Time</h2>
+                    <p>Mondays: 8am - 10am</p>
+                    <p>Wednesdays: 10am - 12noon</p>
+                    <p>Last Day of the month: 10pm till 5am</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="blk">
+                    <i class="fas fa-church icon-size"></i>
+                    <h2 class="item-title">Evangelism</h2>
+                    <p>
+                        Our passion for evangelism over the years has taken us far and wide, meeting the yearnings of lost souls.
+                        Especially in rural areas where many have been neglected. We have won souls, but will not relent in doing
+                        more to ensure that those souls remain in Christ.
+                    </p>
+                    <p>John 4:39-42</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- About Close -->
+
+<!-- Service Start -->
+<div class="service">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <h1>Our Story</h1>
+                <p class="lead-font">
+                    The challenges of life experienced a couple of years ago led into the searching for solutions, which led to taking solace in the Word of God. This revealed that all answers to man’s challenges are readily available in the Bible.
+                </p>
+                <a href="{% url 'who_we_are' %}" class="btn btn-default btn-yellow">read more</a>
+            </div>
+        </div>
+        <div class="service-blk">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="blk">
+                        <h2><a href="{% url 'what_we_do' %}">Agape Visitation</a></h2>
+                        <p>Converted souls are not left alone. We continually visit them individually and as a group, depending on circumstances...</p>
+                        <a href="{% url 'what_we_do' %}" class="btn btn-default btn-yellow">read more</a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="blk">
+                        <h2><a href="{% url 'what_we_do' %}">Open Air Crusade</a></h2>
+                        <p>The Ministry holds Open Air Crusade twice a year. This bi-annual program brings together every believer...</p>
+                        <a href="{% url 'what_we_do' %}" class="btn btn-default btn-yellow">read more</a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="blk">
+                        <h2><a href="{% url 'what_we_do' %}">Praise Services</a></h2>
+                        <p>We hold Praise Services multiple times a year to appreciate God's goodness over the Ministry...</p>
+                        <a href="{% url 'what_we_do' %}" class="btn btn-default btn-yellow">read more</a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="blk">
+                        <h2><a href="{% url 'what_we_do' %}">Benevolence</a></h2>
+                        <p>In addition to spreading the Gospel, the Ministry is committed to acts of benevolence...</p>
+                        <a href="{% url 'what_we_do' %}" class="btn btn-default btn-yellow">read more</a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="blk">
+                        <h2><a href="{% url 'what_we_do' %}">Believers' Class</a></h2>
+                        <p>All converted souls are required to attend Believers' Class to root them in the Word...</p>
+                        <a href="{% url 'what_we_do' %}" class="btn btn-default btn-yellow">read more</a>
+                    </div>
+                </div>
+                <!-- Uncomment if needed for "Our Schools" section
+                <div class="col-md-4">
+                    <div class="blk">
+                        <h2><a href="#">Our Schools</a></h2>
+                        <p>We create joyful digital experiences and unique visual identities that tickle the brain and please the eyes.</p>
+                        <a href="#" class="btn btn-default btn-yellow">read more</a>
+                    </div>
+                </div>
+                -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Service Close -->
+ <!--  things section cose --> 
+
+<!-- News Section Start -->
+<!-- News Section -->
+<div class="news">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Upcoming Events</h1>
+            </div>
+        </div>
+        <div class="row">
+            {% for event in recent_news_events %}
+            <div class="col-md-3">
+                <div class="blk">
+                    <div class="pic">
+                        <a href="{% url 'events' %}"><img src="{{ event.image.url }}" class="img-responsive" alt="{{ event.title }}"></a>
+                    </div>
+                </div>
+                <div class="event-info">
+                    <h4>{{ event.title }}</h4>
+                    <p>{{ event.date }}</p>
+                    <a href="{% url 'contact_us' %}" class="btn btn-yellow">Join Event</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<!-- News Section Close -->
+
+
+<!-- Testimonials Section Start -->
+<div class="testimonials">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-offset-2 col-md-8">
+                <h1>Success Story</h1>
+                <div id="owl-demo-testimonial" class="testimonials-ct">
+                    <div class="item">
+                        <p><strong>“</strong>Praise the Lord. I thank God of this mountain, The Lord that answers prayer. Since the day that I've joined this upper room, I have never regretted it once. He is a faithful God who always answers prayer. After seven years of waiting, God answered my prayer on this mountain. May the name of God be glorified.<strong>”</strong></p>
+                        <span class="name">- IYA OPE</span>
+                    </div>
+                    <div class="item">
+                        <p><strong>"</strong>We, the Babalola family, want to appreciate the goodness of God upon us. Since joining this ministry before our marriage, God has been faithful, keeping all His promises. Our Monday prayers were not in vain, and the Lord rewarded us bountifully. We return all glory to Almighty and pray that the Lord will continue to move the ministry forward. The gate of hell shall not prevail in Jesus’ mighty name.<strong>"</strong></p>
+                        <span class="name">- ESTHER</span>
+                    </div>
+                    <div class="item">
+                        <p><strong>"</strong>Upper Room Evangelical Ministry has blessed my life's journey. I was invited for the anniversary in April 2018 through a sister. I felt the presence of God and decided to attend prayers regularly.
+                            God answered my prayers! He settled me maritally after years of waiting and blessed me with a baby boy. At the center of it all, I see Jesus. He put my enemies to shame and gave me victory. Mum and Dad, may you receive more anointing in Jesus’ name. We appreciate your love and support.<strong>"</strong></p>
+                        <span class="name">- OMOYENI</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Testimonials Section Close -->
+
+
+{% endblock %}

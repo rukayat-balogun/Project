@@ -1,0 +1,46 @@
+# Django specific
+*.log
+*.pot
+*.pyc
+__pycache__/
+db.sqlite3
+media/
+*.sqlite3
+
+# If you are using PostgreSQL
+*.pgsql
+
+# Ignore environment variables and sensitive files
+.env
+.env.*
+!.env.example  # Keeps an example file
+
+# Django static and media files
+/staticfiles/
+/mediafiles/
+
+# Ignore compiled translations
+*.mo
+
+# Node.js dependencies
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Ignore virtual environments
+venv/
+env/
+.venv/
+
+# macOS files
+.DS_Store
+
+# IDE specific files
+.vscode/
+.idea/
+.history/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class

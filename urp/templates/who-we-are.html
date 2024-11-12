@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Urpaeministry | Who We Are{% endblock %}
+
+{% block content %}
+<!-- Page Header Section -->
+<div class="page-title">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 ptn-bg">
+                <h2>Who We Are</h2>
+                <ol class="breadcrumb">
+                    <li><a href="{% url 'index' %}">Home</a></li>
+                    <li class="active">Who We Are</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Main Container Start -->
+<div class="main-container">
+    <!-- About Us Section -->
+    <div class="about-us">
+        <div class="container">
+            <div class="about-blk">
+                <div class="row">
+                    <div class="col-md-offset-2 col-md-8">
+                        <div class="title">
+                            <h1>Our Vision</h1>
+                            <p class="lead-font">To follow and fulfill the directive of our Lord and Savior Jesus Christ, preaching the gospel to all nations.</p>
+                        </div>
+                        <div class="pic">
+                            <img src="{% static 'images/ab_pic-1.jpg' %}" class="img-responsive" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="blk">
+                            <h2>Our Mission</h2>
+                            <p>To ensure that everyone we meet through the gospel is a safe soul and a candidate of heaven. This soul should also experience a fulfilled life on earth and become a source of blessing to others.</p>
+                            <p>Matt. 25:31-46</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="blk">
+                            <h2>Our Stand</h2>
+                            <p>We believe in God the Father, God the Son, and God the Holy Spirit. We uphold the unity of the Trinity and its supreme power over all creation.</p>
+                            <p>Matt. 3:16-17, II Cor. 5:10</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Our Story Section -->
+        <div class="core-blk">
+            <div class="container">
+                <div class="row title">
+                    <div class="col-md-offset-2 col-md-8">
+                        <h1>Our Story</h1>
+                        <p>
+                            The Ministry began out of a deep conviction in the Word of God, believing all answers to life’s challenges are available in the Bible. The great commission to reach all souls with the gospel fuels our mission.
+                        </p>
+                        <p>Matt. 28:19-20, Mark 16:15-18</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Team Section -->
+        <div class="container margin-space">
+            <div class="row title">
+                <div class="col-md-offset-2 col-md-8">
+                    <h1>Meet the Team</h1>
+                </div>
+            </div>
+            <div class="row team-container">
+                <div class="col-md-2 col-sm-4 team-profile">
+                    <div class="pic">
+                        <img src="{% static 'images/Mrs Oke.jpeg' %}" class="img-responsive" alt="">
+                    </div>
+                    <h4>Lady Evangelist/Prophetess Oluwafunmilayo A. Oke</h4>
+                    <span class="positions">Spiritual Head</span>
+                </div>
+                <div class="col-md-2 col-sm-4 team-profile">
+                    <div class="pic">
+                        <img src="{% static 'images/Mr Oke.png' %}" class="img-responsive" alt="">
+                    </div>
+                    <h4>Apostle Babatunde O. Oke</h4>
+                    <span class="positions">Head of Mission Team</span>
+                </div>
+                <div class="col-md-2 col-sm-4 team-profile">
+                    <div class="pic">
+                        <img src="{% static 'images/Segun Goriola.jpeg' %}" class="img-responsive" alt="">
+                    </div>
+                    <h4>Pastor Segun Goriola</h4>
+                    <span class="positions">Pastor</span>
+                </div>
+                <div class="col-md-2 col-sm-4 team-profile">
+                    <div class="pic">
+                        <img src="{% static 'images/Snr. Mother Adetoyi.jpeg' %}" class="img-responsive" alt="">
+                    </div>
+                    <h4>Snr. Prophetess Adejoke Adetoyi</h4>
+                    <span class="positions">Head of Program Team</span>
+                </div>
+                <div class="col-md-2 col-sm-4 team-profile">
+                    <div class="pic">
+                        <img src="{% static 'images/m c.jpeg' %}" class="img-responsive" alt="">
+                    </div>
+                    <h4>Matron Christianah O. Adeyemi</h4>
+                    <span class="positions">Head of Medical Team</span>
+                </div>
+                <div class="col-md-2 col-sm-4 team-profile">
+                    <div class="pic">
+                        <img src="{% static 'images/t o.jpeg' %}" class="img-responsive" alt="">
+                    </div>
+                    <h4>Evangelist Taiye Oyetunji</h4>
+                    <span class="positions">Head of Benevolence Team</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Main Container End -->
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/jquery-1.9.1.min.js' %}"></script>
+<script src="{% static 'js/script.js' %}"></script>
+<script src="{% static 'js/bootstrap.js' %}"></script>
+{% endblock %}

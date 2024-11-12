@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Urpaeministry | What We Do{% endblock %}
+{% block description %}What we do{% endblock %}
+
+{% block content %}
+<!-- Page Header Section -->
+<div class="page-title">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 ptn-bg">
+                <h2>What We Do</h2>
+                <ol class="breadcrumb">
+                    <li><a href="{% url 'index' %}">Home</a></li>
+                    <li class="active">What We Do</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Main Container Start -->
+<div class="main-container">
+    <!-- Volunteer Section -->
+    <div class="container volunteer">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Praise Services</h1>
+                <p class="lead-font">
+                    We hold Praise Services as many times as possible within the year in appreciation of the goodness of God over the Ministry and the lives of every member, believing that things will continue to turn out well. Even when prayers are yet unanswered, we praise God for hearing us. We are a joyous community of believers who appreciate the Lord, who was, who is, and who will be forever.
+                </p>
+                <p>I Thess. 5:18</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="blk">
+                    <h2>Evangelism</h2>
+                    <p>Our passion for evangelism has led us to reach out to lost souls, especially in rural areas. We are committed to keeping souls in Christ.</p>
+                    <p>John 4:39-42</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="blk">
+                    <h2>Agape Visitation</h2>
+                    <p>We continually support converted souls with visitations, encouragement, and prayers to keep them rooted in faith.</p>
+                    <p>Luke 10:38-42</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Prayer Time Section -->
+    <div class="container volunteer">
+        <div class="row">
+            <div class="col-md-offset-1 col-md-10">
+                <div class="color-blk volunteer-form">
+                    <h1>Prayer Time</h1>
+                    <p>
+                        We meet every Monday from 8am to 10am for an Open-Air Inter-Denominational Prayer Session. Monthly, we hold a Special Prayer Vigil from 10pm to 5am. Every Wednesday, we gather from 10am to 12noon for prayer followed by a Counseling Session.
+                    </p>
+                    <p>I Thess. 5:16-17</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Additional Ministries -->
+        <div class="row">
+            <div class="col-md-4">
+                <div class="blk">
+                    <h2>Open Air Crusade</h2>
+                    <p>The Ministry holds Open Air Crusades twice a year, gathering believers from various backgrounds to glorify God and spread His message.</p>
+                    <p>Mark 1:14-15</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="blk">
+                    <h2>Benevolence</h2>
+                    <p>The Ministry actively supports the less privileged with financial aid, medical assistance, school fees, and food distributions.</p>
+                    <p>Acts 2:44-47</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="blk">
+                    <h2>Believers' Class</h2>
+                    <p>New converts are required to attend Believers' Class to deepen their knowledge of the Word, with a focus solely on the Bible.</p>
+                    <p>Luke 4:15-34</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Main Container End -->
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/jquery-1.9.1.min.js' %}"></script>
+<script src="{% static 'js/script.js' %}"></script>
+<script src="{% static 'js/bootstrap.js' %}"></script>
+<script src="{% static 'js/owl.carousel.js' %}"></script>
+<script>
+    $("#owl-demo").owlCarousel({
+        autoPlay: 3000, // Set AutoPlay to 3 seconds
+        items : 4,
+        itemsDesktop : [1199,3],
+        itemsDesktopSmall : [979,3]
+    });
+</script>
+{% endblock %}
