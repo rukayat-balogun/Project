@@ -1,0 +1,21 @@
+<!-- inventory/templates/inventory/checkout.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Checkout</h1>
+
+{% if cart %}
+    <p>You have {{ cart.cartitem_set.count }} item(s) in your cart.</p>
+    <p>Total: NGN {{ cart.total_price }}</p>
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit Order</button>
+    </form>
+{% else %}
+    <p>Your cart is empty. Please add items to your cart first.</p>
+{% endif %}
+
+{% endblock %}

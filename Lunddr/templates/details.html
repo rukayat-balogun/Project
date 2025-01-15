@@ -1,0 +1,28 @@
+<!-- inventory/templates/inventory/details.html -->
+<h1>All Orders</h1>
+<table>
+    <tr>
+        <th>Customer Name</th>
+        <th>Phone Number</th>
+        <th>Clothing Type</th>
+        <th>Quantity</th>
+        <th>Created Date</th>
+        <th>Pickup/Branch</th>
+        <th>Pickup/Delivery Date</th>
+        <th>Paid</th>
+        <th>Payment Date</th>
+    </tr>
+    {% for entry in orders %}
+    <tr>
+        <td>{{ entry.cust_name }}</td>
+        <td>{{ entry.phone_number }}</td>
+        <td>{{ entry.clothing_type.name }}</td>
+        <td>{{ entry.quantity }}</td>
+        <td>{{ entry.created_date }}</td>
+        <td>{{ entry.get_pickup_or_branch_display }}</td>
+        <td>{{ entry.pickup_or_delivery_date }}</td>
+        <td>{{ entry.paid|yesno:"Yes,No" }}</td>
+        <td>{{ entry.payment_date }}</td>
+    </tr>
+    {% endfor %}
+</table>

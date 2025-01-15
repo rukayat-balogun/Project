@@ -1,0 +1,23 @@
+<!-- inventory/templates/inventory/view_cart.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Your Cart</h1>
+{% if cart_items %}
+    <ul>
+        {% for item in cart_items %}
+            <li>{{ item.item.name }} - {{ item.quantity }} x NGN {{ item.item.price }} = NGN {{ item.total_price }}</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Total Price: NGN {{ total_price }}</h3>
+
+    <!-- Checkout Button or Link -->
+    <a href="{% url 'checkout' %}" class="btn btn-primary">Proceed to Checkout</a>
+
+{% else %}
+    <p>Your cart is empty.</p>
+{% endif %}
+
+{% endblock %}

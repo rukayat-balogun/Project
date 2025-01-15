@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <header>
+        <div class="navbar">
+            <a href="{% url 'home' %}" class="logo">
+                <img src="{% static 'images/logoblack.png' %}" alt="Logo" />
+            </a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="{% url 'view_cart' %}">Cart</a></li>
+                    <li><a href="{% url 'checkout' %}">Checkout</a></li>
+                    <li><a href="{% url 'order_confirmation' %}">Order Confirmation</a></li>
+                    <a href="{% url 'logout' %}">Logout</a>
+                </ul>
+            </nav>
+            <!-- Hamburger Icon -->
+            <div class="hamburger" onclick="toggleNav()">
+                &#9776;
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Section -->
+    <main>
+        {% if user.is_authenticated %}
+        <p>Welcome, {{ user.username }}!</p>
+        
+    {% else %}
+        <a href="{% url 'login' %}">Login</a> | 
+        <a href="{% url 'register' %}">Register</a>
+    {% endif %}
+        {% block content %}
+        {% endblock %}
+        
+    </main>
+
+    <!-- Include the JavaScript File -->
+    <script src="{% static 'js/scripts.js' %}"></script>
+</body>
+</html>

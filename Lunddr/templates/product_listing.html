@@ -1,0 +1,34 @@
+<!-- inventory/templates/inventory/product_listing.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<h1 class="page-title">Product Listing</h1>
+
+<div class="product-listing">
+    {% for product in products %}
+        <div class="product-card">
+            <!-- Product Image -->
+            <img src="{% static 'images/'|add:product.name|lower|add:'.png' %}" alt="{{ product.name }}" class="product-image" onerror="this.src='{% static 'images/{{ product.name|lower }}.jpg' %}'">
+            
+            <!-- Product Information -->
+            <div class="product-info">
+                <h3 class="product-name">{{ product.name }}</h3>
+                <p class="product-price">NGN {{ product.price }}</p>
+                
+                <!-- Quantity and Add to Cart Button -->
+                <form method="post" action="{% url 'add_to_cart' product.id %}">
+                    {% csrf_token %}
+                    <div class="quantity-container">
+                        <label for="quantity_{{ product.id }}">Quantity:</label>
+                        <input type="number" id="quantity_{{ product.id }}" name="quantity" value="1" min="1" required>
+                    </div>
+                    <button type="submit" class="add-to-cart-btn">Add to Cart</button>
+                </form>
+            </div>
+        </div>
+    {% endfor %}
+    <a href="{% url 'add_product' %}">Add a product</a>
+</div>
+
+{% endblock %}

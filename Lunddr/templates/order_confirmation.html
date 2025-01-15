@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- inventory/templates/inventory/order_confirmation.html -->
+<h1>Order Confirmation</h1>
+
+{% if order %}
+    <p>Your order has been successfully placed.</p>
+    <p><strong>Cart ID:</strong> {{ cart_id }}</p>
+    <p><strong>Order ID:</strong> {{ order_id }}</p>
+    <p>Payment Status: {{ order.payment_status }}</p>
+    <p>Service Type: {{ order.service_type }}</p>
+    <p>Mode of Service: {{ order.mode_of_service }}</p>
+    <p>Customer Name: {{ order.customer_name }}</p>
+    <p>Customer Phone: {{ order.customer_phone }}</p>
+    <!-- Display the collection date -->
+    <p><strong>Collection Date:</strong> {{ collection_date }}</p>
+
+
+    <h2>Items in your Order</h2>
+    <ul>
+        {% for item in cart_items %}
+            <li>{{ item.item.name }} - {{ item.quantity }} x NGN {{ item.item.price }} = NGN {{ item.total_price }}</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Total Price: NGN {{ total_price }}</h3>
+{% else %}
+    <p>No order found.</p>
+{% endif %}
+
+
+{% endblock %}

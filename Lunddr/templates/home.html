@@ -1,0 +1,12 @@
+<!-- inventory/templates/inventory/home.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="home-page-container">
+    <h1>Welcome to Lunddr!</h1>
+    <p>Your go-to place for all your laundry needs.</p>
+    
+    <!-- Button to Start a New Order (Navigate to Product Listing) -->
+    <a href="{% url 'product_listing' %}" class="start-order-btn">Start New Order</a>
+</div>
+{% endblock %}

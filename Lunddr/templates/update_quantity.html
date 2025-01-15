@@ -1,0 +1,13 @@
+<!-- inventory/templates/inventory/update_quantity.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h3>Update Quantity for {{ cart_item.item.name }}</h3>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Update Quantity</button>
+</form>
+{% endblock %}

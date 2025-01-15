@@ -1,0 +1,28 @@
+<!-- inventory/templates/inventory/view_cart.html -->
+<h3>Your Cart</h3>
+<table>
+    <thead>
+        <tr>
+            <th>Item</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Total</th>
+            <th>Update Quantity</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in cart_items %}
+        <tr>
+            <td>{{ item.item.name }}</td>
+            <td>{{ item.item.price }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.total_price }}</td>
+            <td><a href="{% url 'update_quantity' item.id %}">Update</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h4>Total: NGN {{ total_price }}</h4>
+
+<a href="{% url 'checkout' %}">Proceed to Checkout</a>
