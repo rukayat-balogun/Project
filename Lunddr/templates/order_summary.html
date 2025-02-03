@@ -1,0 +1,21 @@
+<!-- inventory/templates/inventory/order_summary.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Order Summary - Order ID: {{ order.id }}</h1>
+
+<p>Customer Name: {{ order.customer_name }}</p>
+<p>Order Date: {{ order.order_date }}</p>
+<p>Payment Status: {{ order.payment_status }}</p>
+<p>Service Type: {{ order.service_type }}</p>
+<p>Mode of Service: {{ order.mode_of_service }}</p>
+<p>Collection Date: {{ order.collection_date }}</p>
+
+<!-- Form to update date_paid and date_collected -->
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Update Order</button>
+</form>
+
+{% endblock %}

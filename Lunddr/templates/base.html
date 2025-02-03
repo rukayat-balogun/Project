@@ -18,11 +18,17 @@
             <nav>
                 <ul class="nav-links">
                     <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="{% url 'current' %}">Current Orders</a></li>
+                    <li><a href="{% url 'processed_orders' %}">Processed Orders</a></li>
                     <li><a href="{% url 'view_cart' %}">Cart</a></li>
                     <li><a href="{% url 'checkout' %}">Checkout</a></li>
                     <li><a href="{% url 'order_confirmation' %}">Order Confirmation</a></li>
-                    <a href="{% url 'logout' %}">Logout</a>
-                </ul>
+                    
+                    {% if user.is_authenticated %}
+                        <li><a href="{% url 'logout' %}">Logout</a></li>
+                    {% else %}
+                        <li><a href="{% url 'login' %}">Login</a></li>
+                    {% endif %}
             </nav>
             <!-- Hamburger Icon -->
             <div class="hamburger" onclick="toggleNav()">

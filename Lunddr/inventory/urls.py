@@ -14,7 +14,11 @@ urlpatterns = [
     path('update-quantity/<int:cart_item_id>/', views.update_quantity, name='update_quantity'),
     path('checkout/', views.checkout, name='checkout'),  # Checkout page
     path('order-confirmation/', views.order_confirmation, name='order_confirmation'),  # Order confirmation page
+    path('current/', views.current, name='current'),
+    path('order-summary/<int:order_id>/', views.order_summary, name='order_summary'),  # View order details and update dates
     path('all-orders/', views.all_orders, name='all_orders'),
     path('update-order/<int:order_id>/', views.update_order, name='update_order'),
+    path('processed-orders/', views.processed_orders, name='processed_orders'),
+    path('order/delete/<int:order_id>/', views.delete_order, name='delete_order'),
     
 ]

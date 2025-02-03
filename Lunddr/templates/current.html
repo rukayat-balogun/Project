@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Current Orders</h1>
+
+<!-- Search Box -->
+<form method="GET" action="{% url 'current' %}" style="margin-bottom: 20px;">
+    <input type="text" name="search" placeholder="Search by Customer Name" value="{{ request.GET.search }}" style="padding: 10px; width: 250px;">
+    <button type="submit" style="padding: 10px 15px; background-color: #0092c6; color: white; border: none; border-radius: 5px; cursor: pointer;">Search</button>
+</form>
+
+<table>
+    <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>Customer Name</th>
+            <th>Customer Number</th>
+            <th>Order Date</th>
+            <th>Payment Status</th>
+            <th>Service Type</th>
+            <th>Mode of Service</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for order in page_obj %}
+        <tr>
+            <td><a href="{% url 'order_summary' order.id %}">{{ order.id }}</a></td>
+            <td>{{ order.customer_name }}</td>
+            <td>{{ order.customer_phone }}</td>
+            <td>{{ order.order_date }}</td>
+            <td>{{ order.payment_status }}</td>
+            <td>{{ order.service_type }}</td>
+            <td>{{ order.mode_of_service }}</td>
+            <td>
+                {% if request.user.is_superuser %}
+                    <form method="post" action="{% url 'delete_order' order.id %}" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- Pagination Links -->
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; First</a>
+            <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">Next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+
+{% endblock %}

@@ -4,6 +4,19 @@ body {
     background-color: #f5f5f5;
     margin: 0;
     padding: 0;
+    padding-left: 20%;  /* 20% margin on the left side */
+    padding-right: 20%; /* 20% margin on the right side */
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1200px;  /* Optional: Max width for the content */
+}
+
+/* Container for Centering Content */
+.container {
+    padding: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1200px;  /* Optional: Max width for the content */
 }
 
 /* Header */
@@ -173,18 +186,7 @@ footer .social-links a:hover {
     background-color: #007b99;
 }
 
-/* Global styles */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-}
-
-h1 {
-    text-align: center;
-    margin-top: 20px;
-}
-
+/* Product listing */
 .product-listing {
     display: flex;
     flex-wrap: wrap;
@@ -250,13 +252,8 @@ button {
 button:hover {
     background-color: #0056b3;
 }
-/* Global Styles */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-}
 
+/* Header styles */
 header {
     background-color: #333;
     padding: 10px 0;
@@ -298,7 +295,7 @@ nav {
     text-decoration: underline;
 }
 
-/* Mobile Styles - Hide navigation menu by default */
+/* Mobile Styles */
 .hamburger {
     display: none;
     font-size: 30px;
@@ -309,7 +306,7 @@ nav {
 /* Media Queries for Mobile */
 @media screen and (max-width: 768px) {
     nav {
-        display: none; /* Hide the nav menu by default on mobile */
+        display: none;
         width: 100%;
     }
 
@@ -325,11 +322,11 @@ nav {
     }
 
     .hamburger {
-        display: block; /* Show the hamburger icon on mobile */
+        display: block;
     }
 
     nav.active {
-        display: block; /* Show the nav menu when active */
+        display: block;
     }
 
     .nav-links a {
@@ -337,31 +334,27 @@ nav {
     }
 }
 
-/* End of Mobile Styles */
-
-
-/* Media Queries for Mobile */
-@media screen and (max-width: 768px) {
-    .product-listing {
-        justify-content: space-between;
-    }
-
-    .product-card {
-        width: 45%;  /* Adjust to 2 items per row */
-        margin: 10px 0;
-    }
-}
-
 @media screen and (max-width: 480px) {
-    .product-listing {
-        justify-content: center;
-    }
-
-    .product-card {
+    .prod {
         width: 90%;  /* Adjust to 1 item per row on very small screens */
     }
 
     form {
         width: 100%;
     }
+}
+
+table {
+    width: 100%;
+    padding: 10px;
+    border-collapse: collapse;
+    margin-left: auto;
+    margin-right: auto;  /* Equal margin on both sides */
+}
+
+/* Add padding to table cells */
+th, td {
+    padding: 15px;
+    text-align: left;
+    border: 1px solid #ddd;
 }

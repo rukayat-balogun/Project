@@ -1,0 +1,80 @@
+Internal Server Error: /admin/
+Traceback (most recent call last):
+  File "/Users/whitegg/Documents/GitHub/Project/Lunddr/venv/lib/python3.9/site-packages/django/contrib/sessions/backends/base.py", line 187, in _get_session
+    return self._session_cache
+AttributeError: 'SessionStore' object has no attribute '_session_cache'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/whitegg/Documents/GitHub/Project/Lunddr/venv/lib/python3.9/site-packages/django/db/backends/utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+  File "/Users/whitegg/Documents/GitHub/Project/Lunddr/venv/lib/python3.9/site-packages/django/db/backends/sqlite3/base.py", line 328, in execute
+    return super().execute(query, params)
+sqlite3.OperationalError: no such table: django_session
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/whitegg/Documents/GitHub/Project/Lunddr/venv/lib/python3.9/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/Users/whitegg/Documents/GitHub/Project/Lunddr/venv/lib/python3.9/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/whitegg/Documents/GitHub/Project/Lunddr/venv/lib/python3.9/site-packages/django/contrib/admin/sites.py", line 261, in wrapper
+    return self.admin_view(view, cacheable)(*args, **kwargs)
+  File "/Users/whitegg/Documents/GitHub/Project/Lunddr/venv/lib/python3.9/site-packages/django/utils/decorators.py", line 134, in _wrapper_view
+    response = view_func(request, *args, **kwargs)
+  File "/Users/whitegg/Documents/GitHub/Project/Lunddr/venv/lib/python3.9/site-packages/django/views/decorators/cache.py", line 62, in _wrapper_view_func
+    response = view_func(request, *args, **kwargs)
+  File "/Users/whitegg/Documents/GitHub/Project/Lunddr/venv/lib/python3.9/site-packages/django/contrib/admin/sites.py", line 230, in inner
+    if not self.has_permission(request):
+  File "/Users/whitegg/Documents/GitHub/Project/Lunddr/venv/lib/python3.9/site-packages/django/contrib/admin/sites.py", line 203, in has_permission
+    return request.user.is_active and request.user.is_staff
+  File "/Users/whitegg/Documents/GitHub/Project/Lunddr/venv/lib/python3.9/site-packages/django/utils/functional.py", line 266, in inner
+    self._setup()
+  File "/Users/whitegg/Documents/GitHub/Project/Lunddr/venv/lib/python3.9/site-packages/django/utils/functional.py", line 419, in _setup
+    self._wrapped = self._setupfunc()
+  File "/Users/whitegg/Documents/GitHub/Project/Lunddr/venv/lib/python3.9/site-packages/django/contrib/auth/middleware.py", line 25, in <lambda>
+    request.user = SimpleLazyObject(lambda: get_user(request))
+  File "/Users/whitegg/Documents/GitHub/Project/Lunddr/venv/lib/python3.9/site-packages/django/contrib/auth/middleware.py", line 11, in get_user
+    request._cached_user = auth.get_user(request)
+  File "/Users/whitegg/Documents/GitHub/Project/Lunddr/venv/lib/python3.9/site-packages/django/contrib/auth/__init__.py", line 191, in get_user
+    user_id = _get_user_session_key(request)
+  File "/Users/whitegg/Documents/GitHub/Project/Lunddr/venv/lib/python3.9/site-packages/django/contrib/auth/__init__.py", line 60, in _get_user_session_key
+    return get_user_model()._meta.pk.to_python(request.session[SESSION_KEY])
+  File "/Users/whitegg/Documents/GitHub/Project/Lunddr/venv/lib/python3.9/site-packages/django/contrib/sessions/backends/base.py", line 53, in __getitem__
+    return self._session[key]
+  File "/Users/whitegg/Documents/GitHub/Project/Lunddr/venv/lib/python3.9/site-packages/django/contrib/sessions/backends/base.py", line 192, in _get_session
+    self._session_cache = self.load()
+  File "/Users/whitegg/Documents/GitHub/Project/Lunddr/venv/lib/python3.9/site-packages/django/contrib/sessions/backends/db.py", line 42, in load
+    s = self._get_session_from_db()
+  File "/Users/whitegg/Documents/GitHub/Project/Lunddr/venv/lib/python3.9/site-packages/django/contrib/sessions/backends/db.py", line 32, in _get_session_from_db
+    return self.model.objects.get(
+  File "/Users/whitegg/Documents/GitHub/Project/Lunddr/venv/lib/python3.9/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/Users/whitegg/Documents/GitHub/Project/Lunddr/venv/lib/python3.9/site-packages/django/db/models/query.py", line 633, in get
+    num = len(clone)
+  File "/Users/whitegg/Documents/GitHub/Project/Lunddr/venv/lib/python3.9/site-packages/django/db/models/query.py", line 380, in __len__
+    self._fetch_all()
+  File "/Users/whitegg/Documents/GitHub/Project/Lunddr/venv/lib/python3.9/site-packages/django/db/models/query.py", line 1881, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+  File "/Users/whitegg/Documents/GitHub/Project/Lunddr/venv/lib/python3.9/site-packages/django/db/models/query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+  File "/Users/whitegg/Documents/GitHub/Project/Lunddr/venv/lib/python3.9/site-packages/django/db/models/sql/compiler.py", line 1562, in execute_sql
+    cursor.execute(sql, params)
+  File "/Users/whitegg/Documents/GitHub/Project/Lunddr/venv/lib/python3.9/site-packages/django/db/backends/utils.py", line 102, in execute
+    return super().execute(sql, params)
+  File "/Users/whitegg/Documents/GitHub/Project/Lunddr/venv/lib/python3.9/site-packages/django/db/backends/utils.py", line 67, in execute
+    return self._execute_with_wrappers(
+  File "/Users/whitegg/Documents/GitHub/Project/Lunddr/venv/lib/python3.9/site-packages/django/db/backends/utils.py", line 80, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "/Users/whitegg/Documents/GitHub/Project/Lunddr/venv/lib/python3.9/site-packages/django/db/backends/utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+  File "/Users/whitegg/Documents/GitHub/Project/Lunddr/venv/lib/python3.9/site-packages/django/db/utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/Users/whitegg/Documents/GitHub/Project/Lunddr/venv/lib/python3.9/site-packages/django/db/backends/utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+  File "/Users/whitegg/Documents/GitHub/Project/Lunddr/venv/lib/python3.9/site-packages/django/db/backends/sqlite3/base.py", line 328, in execute
+    return super().execute(query, params)
+django.db.utils.OperationalError: no such table: django_session
+"GET /admin/ HTTP/1.1" 500 191475

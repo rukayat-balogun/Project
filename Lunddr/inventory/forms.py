@@ -23,6 +23,5 @@ class OrderUpdateForm(forms.ModelForm):
         model = Order
         fields = ['date_paid', 'date_collected']  # Only include the fields we want to update
 
-    # Customize the form fields
     date_paid = forms.DateTimeField(required=False, widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}))
     date_collected = forms.DateTimeField(required=False, widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}))

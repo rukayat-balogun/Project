@@ -10,7 +10,12 @@ from .models import Item, Cart, CartItem, Order, ProcessedOrder
 from .forms import OrderForm, ItemForm, CartItemForm, OrderUpdateForm
 from django.utils import timezone
 from django.shortcuts import render, get_object_or_404
+from django.contrib.auth.decorators import user_passes_test
 import uuid
+from django.core.paginator import Paginator
+from django.conf import settings
+import requests
+import phonenumbers
 
 def register(request):
     if request.method == 'POST':
@@ -55,25 +60,26 @@ def logout_view(request):
 def home(request):
     cart_id = request.session.get('cart_id')
     print(f"Cart ID from session: {cart_id}")
-    cart_id = request.session.get('cart_id', None)
+    
     if not cart_id:
         print("No cart_id found in session.")  # Debugging
-    else:
-        print(f"Cart ID retrieved: {cart_id}")
-    # Clear any existing cart session before starting a new order
-    if 'cart_id' in request.session:
-        del request.session['cart_id']  # Clear the existing cart session
-    
-    if request.user.is_authenticated:
-        # If the user is logged in, create a cart linked to the user
-        new_cart = Cart.objects.create(user=request.user)
-    else:
-        # If the user is not logged in, create an anonymous cart (without user)
-        new_cart = Cart.objects.create()
 
-    request.session['cart_id'] = new_cart.id  # Set the new cart ID in the session
-    print(f"Cart ID from session: {cart_id}")
-    return render(request, 'home.html') 
+        # Clear any existing cart session before starting a new order
+        if 'cart_id' in request.session:
+            del request.session['cart_id']  # Clear the existing cart session
+
+        if request.user.is_authenticated:
+            # If the user is logged in, create a cart linked to the user
+            new_cart = Cart.objects.create(user=request.user)
+        else:
+            # If the user is not logged in, create an anonymous cart (without user)
+            new_cart = Cart.objects.create()
+
+        request.session['cart_id'] = new_cart.id  # Set the new cart ID in the session
+        print(f"Cart ID from session after login: {new_cart.id}")
+
+    return render(request, 'home.html')
+
 
 def clear_cart_and_home(request):
     # Clear the cart session
@@ -183,6 +189,7 @@ def update_quantity(request, cart_item_id):
 @login_required
 def checkout(request):
     cart_id = request.session.get('cart_id')
+    print(f"Cart ID from session: {cart_id}")  # Debugging
 
     if not cart_id:
         messages.error(request, "No cart found. Please add items to your cart before checking out.")
@@ -203,19 +210,25 @@ def checkout(request):
             order.cart = cart  # Link the order to the current cart
             order.save()
 
+            print(f"Order created with ID: {order.id}")  # Debugging
+
             # Optionally, save the order id in the session to maintain context for the user
             request.session['order_id'] = order.id
 
             # Remove the cart session after order submission (optional)
             del request.session['cart_id']
 
-            return redirect('order_confirmation')
+            # Redirect to order confirmation
+            return redirect('order_confirmation')  # Ensure the correct redirect
+
         else:
             print(f"Form errors: {form.errors}")
     else:
         form = OrderForm()
 
     return render(request, 'checkout.html', {'form': form, 'cart': cart})
+
+
 
 def place_order(request):
     # Get cart information
@@ -250,27 +263,29 @@ def place_order(request):
 
 def order_confirmation(request):
     order_id = request.session.get('order_id')
-    cart_id = request.session.get('cart_id')
-    order = get_object_or_404(Order, id=order_id)
-
     if not order_id:
         messages.error(request, "No order found. Please complete your checkout.")
         return redirect('product_listing')
-    elif not cart_id:
-        return redirect('product_listing')
-        messages.error(request, "No cart found. Please add items to your cart before checking out.")
-          # Redirect to product listing if no cart
-
 
     try:
         order = Order.objects.get(id=order_id)
         cart = order.cart  # Retrieve cart from the order
+        cart_items = cart.cartitem_set.all()  # Get all the items in the cart
     except Order.DoesNotExist:
         messages.error(request, "No order found for this session.")
         return redirect('checkout')
 
-    cart_items = cart.cartitem_set.all()
     total_price = sum(cart_item.total_price() for cart_item in cart_items)
+
+    # Send SMS notification with order details
+    send_order_confirmation_sms(
+        customer_name=order.customer_name,
+        customer_phone=order.customer_phone,
+        order_id=order.id,
+        total_price=total_price,
+        collection_date=order.collection_date.strftime('%b %d, %Y %H:%M'),
+        cart_items=cart_items  # Pass cart items to the SMS function
+    )
 
     return render(request, 'order_confirmation.html', {
         'order': order,
@@ -281,24 +296,86 @@ def order_confirmation(request):
         'collection_date': order.collection_date,  # Ensure collection_date is passed to the template
     })
 
+
+
+def send_order_confirmation_sms(customer_name, customer_phone, order_id, total_price, collection_date, cart_items):
+    try:
+        # Parse the phone number for Nigeria (using "NG" for Nigeria)
+        phone_number = phonenumbers.parse(customer_phone, "NG")  # "NG" for Nigeria
+        formatted_phone_number = phonenumbers.format_number(phone_number, phonenumbers.PhoneNumberFormat.E164)
+    except phonenumbers.phonenumberutil.NumberParseException:
+        raise ValueError(f"Invalid phone number format: {customer_phone}")
+    
+    items_list = "\n".join([f"{item.item.name} (Qty: {item.quantity})" for item in cart_items])
+    
+
+    # Prepare the SMS message body
+    message_body = f"""
+    Hello {customer_name},
+    
+    Your order (ID: {order_id}) has been confirmed. Here are the details:
+    Ordered Items:
+    {items_list}
+    
+    Total Price: NGN {total_price}
+    Collection Date: {collection_date}
+    
+    Thank you for your order!
+    """
+
+    # Prepare the BulkSMS API request data
+    data = {
+        'api_token': settings.BULKSMS_API_KEY,  # Your BulkSMS API key from settings
+        'from': 'Lunddr',  # Replace with your desired sender name or number (max 11 characters)
+        'to': formatted_phone_number,  # The phone number in E.164 format
+        'body': message_body,  # The message body
+        'gateway': 'direct-refund',  # Optionally specify the gateway type (default is 'direct-refund')
+        'append_sender': 'hosted',  # Optionally specify how the sender ID should be appended
+        'callback_url': 'https://yourcallbackurl.com',  # Optional: Add callback URL if needed
+        'customer_reference': str(order_id),  # Optional: Unique reference for this SMS
+    }
+
+    # Send the POST request to BulkSMS API
+    url = "https://www.bulksmsnigeria.com/api/v2/sms"
+    headers = {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+    }
+
+    response = requests.post(url, json=data, headers=headers)
+
+    # Check if the request was successful
+    if response.status_code == 200:
+        response_data = response.json()
+        if response_data['data']['status'] == 'success':
+            print(f"Message sent successfully to {formatted_phone_number}")
+            return response_data  # Return response if needed
+        else:
+            print(f"Error from BulkSMS: {response_data.get('data', {}).get('message', 'Unknown error')}")
+            return None
+    else:
+        print(f"HTTP Error: {response.status_code}")
+        return None    
 # views.py
 @login_required
 def update_order(request, order_id):
+    # Fetch the order
     order = get_object_or_404(Order, id=order_id)
-    
+
     if request.method == 'POST':
         form = OrderUpdateForm(request.POST, instance=order)
+
         if form.is_valid():
             updated_order = form.save()
-            
-            # Check if both date_paid and date_collected are set
+
+            # Ensure that move_to_processed is called if date_paid and date_collected are set
             if updated_order.date_paid and updated_order.date_collected:
-                updated_order.move_to_processed()  # This will move the order to processed orders
+                updated_order.move_to_processed()  # Move the order to processed orders
                 messages.success(request, "Order has been moved to processed orders.")
-                return redirect('all_orders')  # Redirect to orders list or another page
+                return redirect('processed_orders')  # Redirect to processed orders page
             else:
                 messages.success(request, "Order has been updated successfully.")
-                return redirect('all_orders')  # Redirect to orders list or another page
+                return redirect('order_summary', order_id=order.id)  # Stay on the order summary page
         else:
             messages.error(request, "There was an error with the form.")
     else:
@@ -307,7 +384,132 @@ def update_order(request, order_id):
     return render(request, 'update_order.html', {'form': form, 'order': order})
 
 
+
 @login_required
 def all_orders(request):
     orders = Order.objects.all().order_by('-order_date')  # List orders in descending order of order_date
     return render(request, 'all_orders.html', {'orders': orders})
+
+@login_required
+def current(request):
+    # Get the search query from GET parameters
+    search_query = request.GET.get('search', '')
+
+    # Filter orders by customer name if a search query is provided
+    if search_query:
+        orders = Order.objects.filter(customer_name__icontains=search_query).order_by('-id')
+    else:
+        orders = Order.objects.all().order_by('-id')
+
+    # Paginate the orders (10 orders per page)
+    paginator = Paginator(orders, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    # Render the template with the paginated orders
+    return render(request, 'current.html', {'page_obj': page_obj})
+
+@login_required
+def order_summary(request, order_id):
+    # Fetch the order or return 404 if it does not exist
+    
+    order = get_object_or_404(Order, id=order_id)
+
+  
+    if request.method == 'POST':
+        # If the form is submitted, attempt to update the order
+        form = OrderUpdateForm(request.POST, instance=order)
+        
+        if form.is_valid():
+            # Save the updated order
+            updated_order = form.save()
+
+           # If both date_paid and date_collected are set, move the order to processed
+            if updated_order.date_paid and updated_order.date_collected:
+                try:
+                    updated_order.move_to_processed()  # Move the order to processed orders
+                    messages.success(request, f"Order {updated_order.id} has been successfully moved to processed orders.")
+                    print("Sucessful")
+                    return redirect('processed_orders')  # Redirect to processed orders page
+                
+                except ValueError as e:
+                    # If there's an error (e.g., missing data), show the error message
+                    messages.error(request, str(e))
+                   
+                    return redirect('order_summary', order_id=updated_order.id)  # Stay on the order summary page
+            else:
+                messages.success(request, "Order has been updated successfully.")
+                return redirect('order_summary', order_id=updated_order.id)  # Stay on the same page if not moved to processed
+        else:
+            # If form is invalid, show error messages
+            messages.error(request, "There was an error with the form.")
+    else:
+        # If not POST, just display the form with the current order data
+        form = OrderUpdateForm(instance=order)
+
+    # Return the order summary page
+    return render(request, 'order_summary.html', {'form': form, 'order': order})
+
+
+
+@login_required
+def update_order(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+
+    if request.method == 'POST':
+        form = OrderUpdateForm(request.POST, instance=order)
+        if form.is_valid():
+            updated_order = form.save()
+
+            # Check if both date_paid and date_collected are set
+            if updated_order.date_paid and updated_order.date_collected:
+                updated_order.move_to_processed()  # Move the order to processed orders
+                messages.success(request, "Order has been moved to processed orders.")
+                return redirect('processed_orders')  # Redirect to processed orders page
+            else:
+                messages.success(request, "Order has been updated successfully.")
+                return redirect('order_summary', order_id=updated_order.id)  # Stay on the order summary page
+        else:
+            messages.error(request, "There was an error with the form.")
+    else:
+        form = OrderUpdateForm(instance=order)
+
+    return render(request, 'update_order.html', {'form': form, 'order': order})
+
+
+
+@login_required
+def processed_orders(request):
+    # Get the search query from GET parameters
+    search_query = request.GET.get('search', '')
+
+    # Filter processed orders by customer name if a search query is provided
+    if search_query:
+        processed_orders = ProcessedOrder.objects.filter(customer_name__icontains=search_query).order_by('-id')
+    else:
+        processed_orders = ProcessedOrder.objects.all().order_by('-id')
+
+    # Paginate the processed orders (10 orders per page)
+    paginator = Paginator(processed_orders, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    # Render the template with the paginated processed orders
+    return render(request, 'processed_orders.html', {'page_obj': page_obj})
+
+
+
+@user_passes_test(lambda user: user.is_superuser)
+def delete_order(request, order_id):
+    # Get the order or return 404 if not found
+    order = get_object_or_404(Order, id=order_id)
+
+    # Try to delete the order
+    try:
+        order.delete()
+        messages.success(request, "Order deleted successfully.")
+    except Exception as e:
+        messages.error(request, f"Error deleting order: {e}")
+
+    # Redirect back to the current orders page
+    return redirect('current')
