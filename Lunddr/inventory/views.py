@@ -16,6 +16,8 @@ from django.core.paginator import Paginator
 from django.conf import settings
 import requests
 import phonenumbers
+import pandas as pd
+from django.http import HttpResponse
 
 def register(request):
     if request.method == 'POST':
@@ -513,3 +515,43 @@ def delete_order(request, order_id):
 
     # Redirect back to the current orders page
     return redirect('current')
+
+
+
+# Export Current Orders to Excel
+@login_required
+def export_current_orders(request):
+    # Get current orders
+    orders = Order.objects.all().values('id', 'customer_name', 'order_date', 'payment_status', 'service_type', 'mode_of_service', 'total_price')
+    
+    # Create a DataFrame
+    df = pd.DataFrame(orders)
+
+    # Create an HTTP response with the content type for an Excel file
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename=Current_Orders.xlsx'
+
+    # Write the DataFrame to the response
+    with pd.ExcelWriter(response, engine='openpyxl') as writer:
+        df.to_excel(writer, index=False, sheet_name='Current Orders')
+
+    return response
+
+# Export Processed Orders to Excel
+@login_required
+def export_processed_orders(request):
+    # Get processed orders
+    processed_orders = ProcessedOrder.objects.all().values('id', 'customer_name', 'order_date', 'payment_status', 'service_type', 'mode_of_service', 'total_price', 'collection_date', 'date_paid', 'date_collected')
+    
+    # Create a DataFrame
+    df = pd.DataFrame(processed_orders)
+
+    # Create an HTTP response with the content type for an Excel file
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename=Processed_Orders.xlsx'
+
+    # Write the DataFrame to the response
+    with pd.ExcelWriter(response, engine='openpyxl') as writer:
+        df.to_excel(writer, index=False, sheet_name='Processed Orders')
+
+    return response

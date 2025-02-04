@@ -20,5 +20,8 @@ urlpatterns = [
     path('update-order/<int:order_id>/', views.update_order, name='update_order'),
     path('processed-orders/', views.processed_orders, name='processed_orders'),
     path('order/delete/<int:order_id>/', views.delete_order, name='delete_order'),
+    path('export-current-orders/', views.export_current_orders, name='export_current_orders'),
+    path('export-processed-orders/', views.export_processed_orders, name='export_processed_orders'),
+
     
 ]
