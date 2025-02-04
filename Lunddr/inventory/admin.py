@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Order, Cart, ProcessedOrder
+from .models import Order, Cart, ProcessedOrder, Item
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
@@ -25,3 +25,11 @@ class ProcessedOrderAdmin(admin.ModelAdmin):
     def total_price(self, obj):
         return obj.total_price
     total_price.short_description = 'Total Price'
+
+class ItemAdmin(admin.ModelAdmin):
+    list_display = ('name', 'price')  # Display name and price in the list view
+    search_fields = ('name',)  # Allow search by product name
+    list_filter = ('price',)  # Filter products by price
+
+# Register the model with the custom admin class
+admin.site.register(Item, ItemAdmin)
