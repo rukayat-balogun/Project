@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Our Services</h2>
+            <ul class="list-group">
+                {% for service in services %}
+                    <li class="list-group-item">
+                        <a href="{% url 'service_detail' service.slug %}">{{ service.name }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="col-md-6">
+            <h2>Latest Courses</h2>
+            <ul class="list-group">
+                {% for course in latest_courses %}
+                    <li class="list-group-item">
+                        <a href="{% url 'course_detail' course.id %}">
+                            {{ course.course_name }} ({{ course.service.name }})
+                        </a>
+                    </li>
+                {% empty %}
+                    <li class="list-group-item">No courses available yet.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,30 @@
+
+{% extends 'base.html' %}
+{% load purchase_tags %}
+
+
+
+{% block title %}{{ course.course_name }}{% endblock %}
+
+{% block content %}
+    <h2>{{ course.course_name }}</h2>
+    <p><strong>Service:</strong> {{ course.service.name }}</p>
+    <p><strong>Semester:</strong> {{ course.semester }}</p>
+    <p><strong>Description:</strong> {{ course.description }}</p>
+    <p><strong>Status:</strong> {% if course.is_paid %}Paid{% else %}Free{% endif %}</p>
+    
+    {% if user.is_authenticated %}
+    {% if course.is_paid %}
+        {% if user|has_bought:course %}
+            <a href="{{ course.file.url }}" download class="btn btn-primary">Download Course</a>
+        {% else %}
+            <a href="{% url 'initiate_payment' course.id %}" class="btn btn-success">Pay Now</a>
+        {% endif %}
+    {% else %}
+        <a href="{{ course.file.url }}" download class="btn btn-primary">Download Course</a>
+    {% endif %}
+{% else %}
+    <p><a href="/login/">Login</a> to download or purchase courses.</p>
+{% endif %}
+
+{% endblock %}

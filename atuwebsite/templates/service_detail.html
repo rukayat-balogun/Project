@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ service.name }}{% endblock %}
+
+{% block content %}
+    <h2>Courses for {{ service.name }}:</h2>
+    <ul>
+        {% for course in courses %}
+            <li>
+                <a href="{% url 'course_detail' course.id %}">{{ course.course_name }}</a>
+                ({{ course.semester }})
+            </li>
+        {% empty %}
+            <li>No courses available under this service yet.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
